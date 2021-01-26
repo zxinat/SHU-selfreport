@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from fstate_generator import generate_fstate_day, generate_fstate_halfday
 from login import login
 
-NEED_BEFORE = True  # 如需补报则置为True，否则False
+NEED_BEFORE = False  # 如需补报则置为True，否则False
 START_DT = dt.datetime(2021, 1, 20)  # 需要补报的起始日期
 
 
@@ -257,6 +257,6 @@ if __name__ == "__main__":
 
             report_day(sess, get_time(), config[user]['CurSheng'], config[user]['CurShi'], config[user]['CurXian'],
                        config[user]['Detail'])
-            report_halfday(sess, get_time())
+            # report_halfday(sess, get_time())
 
         time.sleep(60)
