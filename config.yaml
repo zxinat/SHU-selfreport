@@ -1,8 +1,14 @@
 # 用户设置
 # 学号:
 #   pwd：密码
+#   CurSheng: 当前所在省
+#   CurShi: 当前所在市
+#   CurXian: 当前所在县/区
+#   Detail: 详细地址
 # 注意引号
 "00000000":
-  pwd: "xxxxx"
-"11111111":
-  pwd: "xxxxx"
+  pwd: "xxxxxxxx"
+  CurSheng: "上海"
+  CurShi: "上海市"
+  CurXian: "闵行区"
+  Detail: "江川路"

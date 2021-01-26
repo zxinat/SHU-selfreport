@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 from fstate_generator import generate_fstate_day, generate_fstate_halfday
 from login import login
 
-NEED_BEFORE = False  # 如需补报则置为True，否则False
-START_DT = dt.datetime(2020, 10, 10)  # 需要补报的起始日期
+NEED_BEFORE = True  # 如需补报则置为True，否则False
+START_DT = dt.datetime(2021, 1, 20)  # 需要补报的起始日期
 
 
 # 获取东八区时间
@@ -42,7 +42,7 @@ def get_random_address():
     return address
 
 
-def report_day(sess, t):
+def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address):
     url = f'https://selfreport.shu.edu.cn/DayReport.aspx?day={t.year}-{t.month}-{t.day}'
 
     r = sess.get(url)
@@ -57,7 +57,7 @@ def report_day(sess, t):
         return False
 
     BaoSRQ = t.strftime('%Y-%m-%d')
-    XiangXDZ = get_random_address()
+    # XiangXDZ = get_random_address()
 
     while True:
         try:
@@ -86,15 +86,15 @@ def report_day(sess, t):
                 "p1$GuoNei": "国内",
                 "p1$ddlGuoJia$Value": "-1",
                 "p1$ddlGuoJia": "选择国家",
-                "p1$ShiFSH": "是",
+                "p1$ShiFSH": "否",
                 "p1$ShiFZX": "否",
-                "p1$ddlSheng$Value": "上海",
-                "p1$ddlSheng": "上海",
-                "p1$ddlShi$Value": "上海市",
-                "p1$ddlShi": "上海市",
-                "p1$ddlXian$Value": "宝山区",
-                "p1$ddlXian": "宝山区",
-                "p1$XiangXDZ": XiangXDZ,
+                "p1$ddlSheng$Value": cur_sheng,
+                "p1$ddlSheng": cur_sheng,
+                "p1$ddlShi$Value": cur_shi,
+                "p1$ddlShi": cur_shi,
+                "p1$ddlXian$Value": cur_xian,
+                "p1$ddlXian": cur_xian,
+                "p1$XiangXDZ": cur_detail_address,
                 "p1$FengXDQDL": "否",
                 "p1$TongZWDLH": "否",
                 "p1$CengFWH": "否",
@@ -122,7 +122,7 @@ def report_day(sess, t):
                 "p1_ContentPanel1_Collapsed": "true",
                 "p1_GeLSM_Collapsed": "false",
                 "p1_Collapsed": "false",
-                "F_STATE": generate_fstate_day(BaoSRQ, XiangXDZ)
+                "F_STATE": generate_fstate_day(BaoSRQ, cur_province, cur_city, cur_district, cur_detail_address)
             }, headers={
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-FineUI-Ajax': 'true'
@@ -226,9 +226,13 @@ if __name__ == "__main__":
 
     if 'users' in os.environ:
         for user_password in os.environ['users'].split(';'):
-            user, password = user_password.split(',')
+            user, password, cur_sheng, cur_shi, cur_xian, detail = user_password.split(',')
             config[user] = {
-                'pwd': password
+                'pwd': password,
+                'CurSheng': cur_sheng,
+                'CurShi': cur_shi,
+                "CurXian": cur_xian,
+                "Detail": detail
             }
 
     for user in config:
@@ -244,13 +248,15 @@ if __name__ == "__main__":
             if NEED_BEFORE:
                 t = START_DT
                 while t < now:
-                    report_day(sess, t)
+                    report_day(sess, t, config[user]['CurSheng'], config[user]['CurShi'], config[user]['CurXian'],
+                               config[user]['Detail'])
                     report_halfday(sess, t + dt.timedelta(hours=8))
                     report_halfday(sess, t + dt.timedelta(hours=20))
 
                     t = t + dt.timedelta(days=1)
 
-            report_day(sess, get_time())
+            report_day(sess, get_time(), config[user]['CurSheng'], config[user]['CurShi'], config[user]['CurXian'],
+                       config[user]['Detail'])
             report_halfday(sess, get_time())
 
         time.sleep(60)

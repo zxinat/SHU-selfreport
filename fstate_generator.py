@@ -10,13 +10,16 @@ def _generate_fstate_base64(fstate):
     return base64.b64encode(fstate_bytes).decode()
 
 
-def generate_fstate_day(BaoSRQ, XiangXDZ):
+def generate_fstate_day(BaoSRQ, cur_sheng, cur_shi, cur_qu, XiangXDZ):
     with open(Path(__file__).resolve().parent.joinpath('fstate_day.json'), encoding='utf8') as f:
         fstate = json.loads(f.read())
 
     fstate['p1_BaoSRQ']['Text'] = BaoSRQ
     fstate['p1_XiangXDZ']['Text'] = XiangXDZ
-
+    fstate['p1_ddlSheng']['SelectedValueArray'] = [cur_sheng]
+    fstate['p1_ddlShi']['SelectedValueArray'] = [cur_shi]
+    fstate['p1_ddlXian']['SelectedValueArray'] = [cur_qu]
+    print(fstate)
     fstate_base64 = _generate_fstate_base64(fstate)
     t = len(fstate_base64) // 2
     fstate_base64 = fstate_base64[:t] + 'F_STATE' + fstate_base64[t:]
@@ -36,5 +39,5 @@ def generate_fstate_halfday(BaoSRQ):
 
 
 if __name__ == '__main__':
-    print(generate_fstate_day())
-    print(generate_fstate_halfday())
+    print(generate_fstate_day("上报日期", "上海", "上海市", "宝山区", "上大路"))
+    # print(generate_fstate_halfday())

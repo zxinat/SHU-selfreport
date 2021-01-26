@@ -1862,7 +1862,7 @@
     "p1_ShiFSH": {
         "Required": true,
         "Hidden": false,
-        "SelectedValue": "是",
+        "SelectedValue": "否",
         "F_Items": [
             [
                 "是",
