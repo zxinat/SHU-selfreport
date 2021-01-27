@@ -14,6 +14,17 @@ def generate_fstate_day(BaoSRQ, cur_sheng, cur_shi, cur_qu, XiangXDZ):
     with open(Path(__file__).resolve().parent.joinpath('fstate_day.json'), encoding='utf8') as f:
         fstate = json.loads(f.read())
 
+    with open(Path(__file__).resolve().parent.joinpath('City.json'), encoding='utf8') as f:
+        city_data = json.loads(f.read())
+
+    with open(Path(__file__).resolve().parent.joinpath('District.json'), encoding='utf8') as f:
+        district_data = json.loads(f.read())
+
+    if cur_sheng != '上海':
+        fstate['p1_ShiFSH']['SelectedValue'] = '否'
+        fstate['p1_ddlSheng']['F_Items'] = city_data[cur_sheng]
+        fstate['p1_ddlShi']['F_Items'] = district_data[cur_shi]
+
     fstate['p1_BaoSRQ']['Text'] = BaoSRQ
     fstate['p1_XiangXDZ']['Text'] = XiangXDZ
     fstate['p1_ddlSheng']['SelectedValueArray'] = [cur_sheng]

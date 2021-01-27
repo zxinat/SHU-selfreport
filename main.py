@@ -49,6 +49,10 @@ def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address
     soup = BeautifulSoup(r.text, 'html.parser')
     view_state = soup.find('input', attrs={'name': '__VIEWSTATE'})
 
+    ShiSH = "否"
+    if cur_province == "上海":
+        ShiSH = "是"
+
     if view_state is None:
         if '上海大学统一身份认证' in r.text:
             print('登录信息过期')
@@ -86,7 +90,7 @@ def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address
                 "p1$GuoNei": "国内",
                 "p1$ddlGuoJia$Value": "-1",
                 "p1$ddlGuoJia": "选择国家",
-                "p1$ShiFSH": "否",
+                "p1$ShiFSH": ShiSH,
                 "p1$ShiFZX": "否",
                 "p1$ddlSheng$Value": cur_province,
                 "p1$ddlSheng": cur_province,
