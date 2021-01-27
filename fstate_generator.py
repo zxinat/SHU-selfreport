@@ -30,7 +30,7 @@ def generate_fstate_day(BaoSRQ, cur_sheng, cur_shi, cur_qu, XiangXDZ):
     fstate['p1_ddlSheng']['SelectedValueArray'] = [cur_sheng]
     fstate['p1_ddlShi']['SelectedValueArray'] = [cur_shi]
     fstate['p1_ddlXian']['SelectedValueArray'] = [cur_qu]
-    print(fstate)
+    # print(fstate)
     fstate_base64 = _generate_fstate_base64(fstate)
     t = len(fstate_base64) // 2
     fstate_base64 = fstate_base64[:t] + 'F_STATE' + fstate_base64[t:]
