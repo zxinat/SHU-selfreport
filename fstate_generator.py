@@ -22,8 +22,8 @@ def generate_fstate_day(BaoSRQ, cur_sheng, cur_shi, cur_qu, XiangXDZ):
 
     if cur_sheng != '上海':
         fstate['p1_ShiFSH']['SelectedValue'] = '否'
-        fstate['p1_ddlSheng']['F_Items'] = city_data[cur_sheng]
-        fstate['p1_ddlShi']['F_Items'] = district_data[cur_shi]
+        fstate['p1_ddlShi']['F_Items'] = city_data[cur_sheng]
+        fstate['p1_ddlXian']['F_Items'] = district_data[cur_shi]
 
     fstate['p1_BaoSRQ']['Text'] = BaoSRQ
     fstate['p1_XiangXDZ']['Text'] = XiangXDZ
