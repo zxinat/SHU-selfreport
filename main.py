@@ -245,7 +245,7 @@ if __name__ == "__main__":
         if user in ['00000000', '11111111']:
             continue
 
-        print(f'======{user}======')
+        print('======登录中======')
         sess = login(user, config[user]['pwd'])
 
         if sess:
