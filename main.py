@@ -99,6 +99,7 @@ def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address
                 "p1$ddlXian$Value": cur_district,
                 "p1$ddlXian": cur_district,
                 "p1$XiangXDZ": cur_detail_address,
+                "p1$ShiFZJ": "是",
                 "p1$FengXDQDL": "否",
                 "p1$TongZWDLH": "否",
                 "p1$CengFWH": "否",
@@ -123,6 +124,7 @@ def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address
                 "p1$SuiSM": "绿色",
                 "p1$LvMa14Days": "是",
                 "p1$Address2": "",
+                "F_TARGET":"p1_ct100_btnSubmit",
                 "p1_ContentPanel1_Collapsed": "true",
                 "p1_GeLSM_Collapsed": "false",
                 "p1_Collapsed": "false",
@@ -145,7 +147,7 @@ def report_day(sess, t, cur_province, cur_city, cur_district, cur_detail_address
         return False
 
 
-def report_halfday(sess, t, temperature=37):
+def report_halfday(sess, t, cur_province, cur_city, cur_district, cur_detail_address, temperature=37):
     ii = '1' if t.hour < 19 else '2'
 
     url = f'https://selfreport.shu.edu.cn/XueSFX/HalfdayReport.aspx?day={t.year}-{t.month}-{t.day}&t={ii}'
@@ -175,13 +177,13 @@ def report_halfday(sess, t, temperature=37):
                 "p1$DangQSTZK": "良好",
                 "p1$TiWen": str(temperature),
                 "p1$ZaiXiao": "宝山",
-                "p1$ddlSheng$Value": cur_sheng,
-                "p1$ddlSheng": cur_sheng,
-                "p1$ddlShi$Value": cur_shi,
-                "p1$ddlShi": cur_shi,
-                "p1$ddlXian$Value": cur_xian,
-                "p1$ddlXian": cur_xian,
-                "p1$XiangXDZ": cur_xian,
+                "p1$ddlSheng$Value": cur_province,
+                "p1$ddlSheng": cur_province,
+                "p1$ddlShi$Value": cur_city,
+                "p1$ddlShi": cur_city,
+                "p1$ddlXian$Value": cur_district,
+                "p1$ddlXian": cur_district,
+                "p1$XiangXDZ": cur_district,
                 "p1$FengXDQDL": "否",
                 "p1$TongZWDLH": "否",
                 "p1$CengFWH": "否",
@@ -254,8 +256,12 @@ if __name__ == "__main__":
                 while t < now:
                     report_day(sess, t, config[user]['CurSheng'], config[user]['CurShi'], config[user]['CurXian'],
                                config[user]['Detail'])
-                    report_halfday(sess, t + dt.timedelta(hours=8))
-                    report_halfday(sess, t + dt.timedelta(hours=20))
+                    report_halfday(sess, t + dt.timedelta(hours=8), config[user]['CurSheng'], config[user]['CurShi'],
+                                   config[user]['CurXian'],
+                                   config[user]['Detail'])
+                    report_halfday(sess, t + dt.timedelta(hours=20), config[user]['CurSheng'], config[user]['CurShi'],
+                                   config[user]['CurXian'],
+                                   config[user]['Detail'])
 
                     t = t + dt.timedelta(days=1)
 
