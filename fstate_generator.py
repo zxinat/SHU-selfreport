@@ -11,7 +11,7 @@ def _generate_fstate_base64(fstate):
 
 
 def generate_fstate_day(BaoSRQ, cur_sheng, cur_shi, cur_qu, XiangXDZ):
-    with open(Path(__file__).resolve().parent.joinpath('fstate_day.json'), encoding='utf8') as f:
+    with open(Path(__file__).resolve().parent.joinpath('new_fstate_20210302.json'), encoding='utf8') as f:
         fstate = json.loads(f.read())
 
     with open(Path(__file__).resolve().parent.joinpath('City.json'), encoding='utf8') as f:
