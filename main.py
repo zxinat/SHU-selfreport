@@ -271,4 +271,5 @@ if __name__ == "__main__":
                        config[user]['Detail'])
             # report_halfday(sess, get_time())
 
-        time.sleep(60)
+        time.sleep(5)
+        sess.close()
