@@ -270,6 +270,6 @@ if __name__ == "__main__":
             report_day(sess, get_time(), config[user]['CurSheng'], config[user]['CurShi'], config[user]['CurXian'],
                        config[user]['Detail'])
             # report_halfday(sess, get_time())
-
-        time.sleep(5)
-        sess.close()
+            time.sleep(8)
+            sess.close()
+        time.sleep(2)
